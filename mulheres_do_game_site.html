@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mulheres do Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #121212;
+      color: #fff;
+      background-image: url('https://images.unsplash.com/photo-1613899182200-28cfaf87065a');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    header {
+      background-color: rgba(28, 28, 28, 0.9);
+      padding: 2rem;
+      text-align: center;
+      animation: fadeIn 2s ease;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: #e91e63;
+    }
+    nav a {
+      margin: 0 1rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 3rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: rgba(18, 18, 18, 0.85);
+      border-radius: 12px;
+      animation: slideUp 1.5s ease;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: #ff4081;
+    }
+    .cta {
+      display: block;
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .cta a {
+      background-color: #e91e63;
+      color: white;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    footer {
+      background-color: rgba(28, 28, 28, 0.9);
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    input, textarea, select, button {
+      padding: 0.75rem;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
+    input, textarea, select {
+      background-color: #2c2c2c;
+      color: white;
+    }
+    button {
+      background-color: #e91e63;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mulheres do Game</h1>
+    <nav>
+      <a href="#quem-somos">Quem Somos</a>
+      <a href="#seja">Seja uma Acompanhante</a>
+      <a href="#beneficios">Benefícios</a>
+      <a href="#formulario">Inscreva-se</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section id="quem-somos">
+    <h2>Quem Somos</h2>
+    <p>Somos um grupo de mulheres independentes que criaram um espaço seguro, sem estigmas, para partilhar experiências no mundo do luxo e prazer. Contra a exploração, a favor da liberdade e do empoderamento.</p>
+  </section>
+
+  <section id="seja">
+    <h2>Seja uma Acompanhante</h2>
+    <p>Está pronta para uma nova aventura? Se tens mais de 18 anos, vives em Nampula ou Nacala, és extrovertida, disciplinada e aberta a novas experiências, então este pode ser o teu lugar.</p>
+    <div class="cta">
+      <a href="#formulario">Quero fazer parte</a>
+    </div>
+  </section>
+
+  <section id="beneficios">
+    <h2>O que oferecemos</h2>
+    <ul>
+      <li>Mentoria e aconselhamento</li>
+      <li>Acesso ao nosso closet</li>
+      <li>Curso de inglês certificado</li>
+      <li>Treinos e acesso a eventos exclusivos</li>
+    </ul>
+  </section>
+
+  <section id="formulario">
+    <h2>Formulário de Candidatura</h2>
+    <form onsubmit="return validarFormulario()">
+      <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
+      <input type="number" id="idade" name="idade" placeholder="Idade" min="18" required>
+      <input type="text" id="pais" name="pais" placeholder="País" value="Moçambique" required>
+      <select id="provincia" name="provincia" required>
+        <option value="">Selecione a Província</option>
+        <option>Maputo</option>
+        <option>Gaza</option>
+        <option>Inhambane</option>
+        <option>Sofala</option>
+        <option>Manica</option>
+        <option>Tete</option>
+        <option>Zambézia</option>
+        <option>Nampula</option>
+        <option>Cabo Delgado</option>
+        <option>Niassa</option>
+        <option>Maputo (Cidade)</option>
+      </select>
+      <input type="email" id="email" name="email" placeholder="E-mail" required>
+      <input type="tel" id="telefone" name="telefone" placeholder="WhatsApp" required>
+      <textarea id="sobre" name="sobre" placeholder="Fala-nos um pouco sobre ti..." required></textarea>
+      <label for="fotos">Carregue uma foto nítida sua:</label>
+      <input type="file" id="fotos" name="fotos" accept="image/*" required>
+      <img id="preview" src="#" alt="Pré-visualização" style="margin-top: 1rem; max-width: 200px; display: none; border-radius: 8px;">
+      <label>
+        <input type="checkbox" required>
+        Confirmo que tenho mais de 18 anos e li os termos da plataforma.
+      </label>
+      <button type="submit">Enviar Candidatura</button>
+    </form>
+    <script>
+      function validarFormulario() {
+        const idade = document.getElementById('idade').value;
+        if (idade < 18) {
+          alert("Tem de ter pelo menos 18 anos para se candidatar.");
+          return false;
+        }
+        alert("Candidatura enviada com sucesso. Entraremos em contacto em breve.");
+        return true;
+      }
+
+      document.getElementById('fotos').addEventListener('change', function(event) {
+        const preview = document.getElementById('preview');
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+          }
+          reader.readAsDataURL(file);
+        } else {
+          preview.style.display = 'none';
+          preview.src = '#';
+        }
+      });
+    </script>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <p>Pronta para iniciar? Envia-nos uma mensagem:</p>
+    <p><strong>WhatsApp:</strong> <a href="https://wa.me/258871234567" style="color:#ff4081">+258 871234567</a></p>
+    <p><strong>Email:</strong> <a href="mailto:mulheresdogame@gmail.com" style="color:#ff4081">mulheresdogame@gmail.com</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 Mulheres do Game. Todos os direitos reservados.
+  </footer>
+</body>
+</html>
