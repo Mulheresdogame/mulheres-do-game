@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -16,27 +17,23 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
-
     header {
       background-color: rgba(28, 28, 28, 0.9);
       padding: 2rem;
       text-align: center;
       animation: fadeIn 2s ease;
     }
-
     header h1 {
       font-family: 'Playfair Display', serif;
       font-size: 2.5rem;
       color: #e91e63;
     }
-
     nav a {
       margin: 0 1rem;
       color: #fff;
       text-decoration: none;
       font-weight: bold;
     }
-
     section {
       padding: 3rem 2rem;
       max-width: 800px;
@@ -45,23 +42,19 @@
       border-radius: 12px;
       animation: slideUp 1.5s ease;
     }
-
     h2 {
       font-family: 'Playfair Display', serif;
       color: #ff4081;
     }
-
     ul {
       list-style: disc;
       padding-left: 1.5rem;
     }
-
     .cta {
       display: block;
       margin-top: 2rem;
       text-align: center;
     }
-
     .cta a {
       background-color: #e91e63;
       color: white;
@@ -70,7 +63,6 @@
       border-radius: 8px;
       font-weight: bold;
     }
-
     footer {
       background-color: rgba(28, 28, 28, 0.9);
       text-align: center;
@@ -78,53 +70,44 @@
       font-size: 0.9rem;
       color: #bbb;
     }
-
     form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       margin-top: 2rem;
     }
-
     input, textarea, select, button {
       padding: 0.75rem;
       border-radius: 5px;
       border: none;
       font-size: 1rem;
     }
-
     input, textarea, select {
       background-color: #2c2c2c;
       color: white;
     }
-
     button {
       background-color: #e91e63;
       color: white;
       cursor: pointer;
       font-weight: bold;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @media (max-width: 600px) {
       header h1 {
         font-size: 1.8rem;
       }
-
       nav a {
         display: block;
         margin: 0.5rem 0;
       }
-
       section {
         padding: 2rem 1rem;
       }
@@ -168,12 +151,11 @@
 
   <section id="formulario">
     <h2>Formulário de Candidatura</h2>
-    <form onsubmit="return validarFormulario()">
-      <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
-      <input type="number" id="idade" name="idade" placeholder="Idade" min="18" required>
-      <input type="text" id="pais" name="pais" placeholder="País" value="Moçambique" required>
-
-      <select id="provincia" name="provincia" required>
+    <form id="formulario">
+      <input type="text" name="nome" placeholder="Nome completo" required>
+      <input type="number" name="idade" placeholder="Idade" min="18" required>
+      <input type="text" name="pais" placeholder="País" value="Moçambique" required>
+      <select name="provincia" required>
         <option value="">Selecione a Província</option>
         <option>Maputo</option>
         <option>Gaza</option>
@@ -187,34 +169,52 @@
         <option>Niassa</option>
         <option>Maputo (Cidade)</option>
       </select>
-
-      <input type="email" id="email" name="email" placeholder="E-mail" required>
-      <input type="tel" id="telefone" name="telefone" placeholder="WhatsApp" required>
-      <textarea id="sobre" name="sobre" placeholder="Fala-nos um pouco sobre ti..." required></textarea>
-
+      <input type="email" name="email" placeholder="E-mail" required>
+      <input type="tel" name="telefone" placeholder="WhatsApp" required>
+      <textarea name="sobre" placeholder="Fala-nos um pouco sobre ti..." required></textarea>
       <label for="fotos">Carregue uma foto nítida sua:</label>
       <input type="file" id="fotos" name="fotos" accept="image/*" required>
       <img id="preview" src="#" alt="Pré-visualização" style="margin-top: 1rem; max-width: 200px; display: none; border-radius: 8px;">
-
-      <label>
-        <input type="checkbox" required>
-        Confirmo que tenho mais de 18 anos e li os termos da plataforma.
-      </label>
-
+      <label><input type="checkbox" required> Confirmo que tenho mais de 18 anos e li os termos da plataforma.</label>
       <button type="submit">Enviar Candidatura</button>
     </form>
-
     <script>
-      function validarFormulario() {
-        const idade = document.getElementById('idade').value;
-        if (idade < 18) {
+      async function validarFormulario(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const dados = {
+          nome: formData.get('nome'),
+          idade: Number(formData.get('idade')),
+          pais: formData.get('pais'),
+          provincia: formData.get('provincia'),
+          email: formData.get('email'),
+          telefone: formData.get('telefone'),
+          sobre: formData.get('sobre')
+        };
+        if (dados.idade < 18) {
           alert("Tem de ter pelo menos 18 anos para se candidatar.");
           return false;
         }
-        alert("Candidatura enviada com sucesso. Entraremos em contacto em breve.");
-        return true;
+        try {
+          const resposta = await fetch('https://mulheres-do-game-backend.onrender.com/api/candidatura', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+          });
+          const resultado = await resposta.json();
+          if (resposta.ok) {
+            alert('✅ Candidatura enviada com sucesso!');
+            form.reset();
+            document.getElementById('preview').style.display = 'none';
+          } else {
+            alert('❌ Erro: ' + (resultado.detalhe || 'Erro desconhecido.'));
+          }
+        } catch (erro) {
+          alert('Erro de rede: ' + erro.message);
+        }
+        return false;
       }
-
       document.getElementById('fotos').addEventListener('change', function(event) {
         const preview = document.getElementById('preview');
         const file = event.target.files[0];
@@ -230,6 +230,7 @@
           preview.src = '#';
         }
       });
+      document.querySelector('form').addEventListener('submit', validarFormulario);
     </script>
   </section>
 
